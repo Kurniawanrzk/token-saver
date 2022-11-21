@@ -28,7 +28,7 @@
 			}
 			JSON.parse(localStorage.getItem("data")).forEach((el, idx) => {
 				document.querySelector(".list").innerHTML += `
-					<li>${el.data} <button onClick=deleteData`+ `(${idx})` +`>Delete</button></li>
+					<li>${el.data} <button onClick=deleteData`+ `(${idx})` +`>Delete</button> </li>
 				`
 			})
 			
