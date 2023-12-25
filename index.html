@@ -46,12 +46,8 @@
           );
         }
         JSON.parse(localStorage.getItem("data")).forEach((el, idx) => {
-          document.querySelector(".list").innerHTML +=
-            `
-					<li>${el.data} <button onClick=deleteData` +
-            `(${idx})` +
-            `>Delete</button> </li>
-				`;
+          document.querySelector(".list").innerHTML += `
+			<li> <input oninput='preventDeletion(this, "${el.data}")' value='${el.data}' /><button onclick='copyData("${el.data}")'>Copy</button> <button onClick='deleteData(${el.idx})'>Delete</button> </li>`;
         });
       });
       document.getElementById("export-token").addEventListener("click", () => {
@@ -63,8 +59,10 @@
         .getElementById("submit-ipt-import")
         .addEventListener("click", () => {
           let dataImport = document.getElementById("ipt-import").value;
-          localStorage.setItem("data", dataImport);
-          window.location.reload();
+          if (dataImport != "") {
+            localStorage.setItem("data", dataImport);
+            window.location.reload();
+          }
         });
       document.getElementById("submit-ipt").addEventListener("click", () => {
         if (document.getElementById("ipt-token").value !== "") {
@@ -80,10 +78,21 @@
         }
       });
       function deleteData(idx) {
-        let dataListToken = JSON.parse(localStorage.getItem("data"));
-        dataListToken.splice(idx, 1);
-        localStorage.setItem("data", JSON.stringify(dataListToken));
-        window.location.reload();
+        let con = confirm("Are you really want to delete this token?");
+        if (con) {
+          let dataListToken = JSON.parse(localStorage.getItem("data"));
+          dataListToken.splice(idx, 1);
+          localStorage.setItem("data", JSON.stringify(dataListToken));
+          window.location.reload();
+        }
+      }
+
+      function copyData(data) {
+        navigator.clipboard.writeText(data);
+        alert("Copied!");
+      }
+      function preventDeletion(input, originalValue) {
+        input.value = originalValue;
       }
     </script>
   </body>
