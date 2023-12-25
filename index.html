@@ -1,56 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Token Application</title>
-	<link rel="shortcut icon" href="favico.jpg" type="image/x-icon">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="style.css" rel="stylesheet" >
-</head>
-<body>
-	<div class="container">
-		<div class="wrapper-list">
-			<div class="ipt-token">
-				<div class="form-group">
-					<input type="text" placeholder="input the token" id="ipt-token" />
-					<button id="submit-ipt">Submit</button>
-				</div>
-			</div>
-			<div class="list-token">
-				<ul class="list">
-				</ul>
-			</div>
-		</div>
-	</div>
-<script>
-		window.addEventListener("load", () => {
-			if(!localStorage.getItem("data")) {				
-				localStorage.setItem("data", JSON.stringify([{data:"Hi, Have A Nice Day :)"}]))
-			}
-			JSON.parse(localStorage.getItem("data")).forEach((el, idx) => {
-				document.querySelector(".list").innerHTML += `
-					<li>${el.data} <button onClick=deleteData`+ `(${idx})` +`>Delete</button> </li>
-				`
-			})
-			
-		})
-		document.getElementById("submit-ipt")
-			.addEventListener("click", () => {
-		if( document.getElementById("ipt-token").value !== "") {
-			let dataListToken = JSON.parse(localStorage.getItem("data"));
-			let d = new Date();
-			dataListToken.push({data:document.getElementById("ipt-token").value, createdAt:Date()})
-			localStorage.setItem("data", JSON.stringify(dataListToken))
-			document.getElementById("ipt-token").value = ""
-			window.location.reload()
-		}
-	})
-	function deleteData(idx) {
-		let dataListToken = JSON.parse(localStorage.getItem("data"));
-		dataListToken.splice(idx,1)
-		localStorage.setItem("data", JSON.stringify(dataListToken))
-		window.location.reload()
-	}
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Token Application</title>
+    <link rel="shortcut icon" href="favico.jpg" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="list-list">
+        <div class="import-ipt">
+          <div>
+            <input
+              type="text"
+              placeholder="input the token to import"
+              id="ipt-import"
+            />
+            <button id="submit-ipt-import">Submit</button>
+          </div>
+          <button>Click to export your token to clipboard</button>
+        </div>
+
+        <div class="wrapper-list">
+          <div class="ipt-token">
+            <div class="form-group">
+              <input type="text" placeholder="input the token" id="ipt-token" />
+              <button id="submit-ipt">Submit</button>
+            </div>
+          </div>
+          <div class="list-token">
+            <ul class="list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.addEventListener("load", () => {
+        if (!localStorage.getItem("data")) {
+          localStorage.setItem(
+            "data",
+            JSON.stringify([{ data: "Hi, Have A Nice Day :)" }])
+          );
+        }
+        JSON.parse(localStorage.getItem("data")).forEach((el, idx) => {
+          document.querySelector(".list").innerHTML +=
+            `
+					<li>${el.data} <button onClick=deleteData` +
+            `(${idx})` +
+            `>Delete</button> </li>
+				`;
+        });
+      });
+      document
+        .getElementById("submit-ipt-import")
+        .addEventListener("click", () => {
+          let dataImport = document.getElementById("ipt-import").value;
+          localStorage.setItem("data", dataImport);
+          window.location.reload();
+        });
+      document.getElementById("submit-ipt").addEventListener("click", () => {
+        if (document.getElementById("ipt-token").value !== "") {
+          let dataListToken = JSON.parse(localStorage.getItem("data"));
+          let d = new Date();
+          dataListToken.push({
+            data: document.getElementById("ipt-token").value,
+            createdAt: Date(),
+          });
+          localStorage.setItem("data", JSON.stringify(dataListToken));
+          document.getElementById("ipt-token").value = "";
+          window.location.reload();
+        }
+      });
+      function deleteData(idx) {
+        let dataListToken = JSON.parse(localStorage.getItem("data"));
+        dataListToken.splice(idx, 1);
+        localStorage.setItem("data", JSON.stringify(dataListToken));
+        window.location.reload();
+      }
+    </script>
+  </body>
 </html>
