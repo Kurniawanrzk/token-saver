@@ -27,6 +27,7 @@
         <div class="wrapper-list">
           <div class="ipt-token">
             <div class="form-group">
+              <input type="text" placeholder="input the token name" id="ipt-name" />
               <input type="text" placeholder="input the token" id="ipt-token" />
               <button id="submit-ipt">Submit</button>
             </div>
@@ -42,12 +43,12 @@
         if (!localStorage.getItem("data")) {
           localStorage.setItem(
             "data",
-            JSON.stringify([{ data: "Hi, Have A Nice Day :)" }])
+            JSON.stringify([{name:"Start" ,data: "Hi, Have A Nice Day :)" }])
           );
         }
         JSON.parse(localStorage.getItem("data")).forEach((el, idx) => {
           document.querySelector(".list").innerHTML += `
-			<li> <input oninput='preventDeletion(this, "${el.data}")' value='${el.data}' /><button onclick='copyData("${el.data}")'>Copy</button> <button onClick='deleteData(${el.idx})'>Delete</button> </li>`;
+			<li><p>${el.name} : </p> <input oninput='preventDeletion(this, "${el.data}")' value='${el.data}' /><button onclick='copyData("${el.data}")'>Copy</button> <button onClick='deleteData(${el.idx})'>Delete</button> </li>`;
         });
       });
       document.getElementById("export-token").addEventListener("click", () => {
@@ -65,10 +66,11 @@
           }
         });
       document.getElementById("submit-ipt").addEventListener("click", () => {
-        if (document.getElementById("ipt-token").value !== "") {
+        if (document.getElementById("ipt-token").value !== "" && document.getElementById("ipt-name").value !== "") {
           let dataListToken = JSON.parse(localStorage.getItem("data"));
           let d = new Date();
           dataListToken.push({
+            name:document.getElementById("ipt-name").value,
             data: document.getElementById("ipt-token").value,
             createdAt: Date(),
           });
